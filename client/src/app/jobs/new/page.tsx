@@ -13,7 +13,7 @@ import Link from 'next/link';
 const formSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters'),
   category: z.enum(['Plumbing', 'Electrical', 'Carpentry', 'Cleaning', 'Landscaping', 'Other'], {
-    required_error: 'Please select a category',
+    error: 'Please select a category',
   }),
   location: z.string().min(3, 'Location must be at least 3 characters'),
   description: z.string().min(10, 'Description must be at least 10 characters'),
