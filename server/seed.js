@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Job = require('./models/Job');
+const User = require('./models/User');
 
 dotenv.config();
 
@@ -129,11 +130,27 @@ const seedDB = async () => {
     await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/service-board');
     console.log('MongoDB Connected...');
 
+    // Delete existing data
     await Job.deleteMany();
-    console.log('Previous jobs deleted...');
+    await User.deleteMany();
+    console.log('Existing data cleared...');
 
-    await Job.insertMany(sampleJobs);
-    console.log('13 sample jobs inserted successfully!');
+    // Create a default user
+    const user = await User.create({
+      name: 'Admin User',
+      email: 'admin@example.com',
+      password: 'password123'
+    });
+    console.log('Default user created (admin@example.com / password123)');
+
+    // Add user ID to sample jobs
+    const jobsWithUser = sampleJobs.map(job => ({
+      ...job,
+      user: user._id
+    }));
+
+    await Job.insertMany(jobsWithUser);
+    console.log(`${jobsWithUser.length} sample jobs inserted successfully!`);
 
     process.exit();
   } catch (error) {

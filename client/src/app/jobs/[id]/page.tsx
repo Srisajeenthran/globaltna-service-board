@@ -7,7 +7,7 @@ import { getJob, updateJobStatus, deleteJob } from '@/lib/api';
 import { Badge } from '@/components/ui/Badge';
 import Modal from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
-import { ArrowLeft, MapPin, User, Mail, Calendar, Trash2, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, MapPin, User, Mail, Calendar, Trash2, AlertTriangle, Pencil } from 'lucide-react';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { useParams } from 'next/navigation';
@@ -117,9 +117,9 @@ export default function JobDetailPage() {
               <h1 className="text-2xl font-bold text-gray-900">{job.title}</h1>
             </div>
 
-            {user && (
+            {user && (user._id === job.user || user.id === job.user) && (
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 mr-2">
                   <label htmlFor="status" className="text-sm font-medium text-gray-700">Status:</label>
                   <select
                     id="status"
@@ -134,6 +134,14 @@ export default function JobDetailPage() {
                   </select>
                 </div>
                 
+                <Link
+                  href={`/jobs/${id}/edit`}
+                  className="inline-flex items-center justify-center p-2 rounded-xl text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  title="Edit job"
+                >
+                  <Pencil className="h-5 w-5" />
+                </Link>
+
                 <button
                   onClick={() => setIsDeleteModalOpen(true)}
                   disabled={deleting}

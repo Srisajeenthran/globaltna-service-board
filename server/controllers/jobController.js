@@ -37,7 +37,8 @@ exports.getJob = async (req, res) => {
 // Create job
 exports.createJob = async (req, res) => {
   try {
-    const job = new Job(req.body);
+    const jobData = { ...req.body, user: req.user.id };
+    const job = new Job(jobData);
     const savedJob = await job.save();
     res.status(201).json(savedJob);
   } catch (error) {
@@ -52,20 +53,23 @@ exports.createJob = async (req, res) => {
 // Update job status
 exports.updateJob = async (req, res) => {
   try {
-    const { status } = req.body;
+    let job = await Job.findById(req.params.id);
     
-    // Only allow status updates as per requirements
-    if (!status) {
-      return res.status(400).json({ message: 'Please provide a status to update' });
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
     }
 
-    const job = await Job.findByIdAndUpdate(
+    // Check if user is job owner
+    if (job.user.toString() !== req.user.id) {
+      return res.status(401).json({ message: 'Not authorized to update this job' });
+    }
+
+    job = await Job.findByIdAndUpdate(
       req.params.id, 
-      { status }, 
+      req.body, 
       { new: true, runValidators: true }
     );
     
-    if (!job) return res.status(404).json({ message: 'Job not found' });
     res.status(200).json(job);
   } catch (error) {
     if (error.name === 'ValidationError') {
@@ -78,8 +82,18 @@ exports.updateJob = async (req, res) => {
 // Delete job
 exports.deleteJob = async (req, res) => {
   try {
-    const job = await Job.findByIdAndDelete(req.params.id);
-    if (!job) return res.status(404).json({ message: 'Job not found' });
+    const job = await Job.findById(req.params.id);
+
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
+
+    // Check if user is job owner
+    if (job.user.toString() !== req.user.id) {
+      return res.status(401).json({ message: 'Not authorized to delete this job' });
+    }
+
+    await job.deleteOne();
     res.status(200).json({ message: 'Job deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -31,6 +31,11 @@ export const createJob = async (jobData: any) => {
   return data;
 };
 
+export const updateJob = async (id: string, jobData: any) => {
+  const { data } = await api.patch(`/jobs/${id}`, jobData);
+  return data;
+};
+
 export const updateJobStatus = async (id: string, status: string) => {
   const { data } = await api.patch(`/jobs/${id}`, { status });
   return data;
