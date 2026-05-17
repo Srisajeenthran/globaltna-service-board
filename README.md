@@ -2,6 +2,7 @@
 
 A state-of-the-art, full-stack marketplace designed for seamless interaction between homeowners and professional service providers. Built with performance, security, and a premium user experience in mind.
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-teal?style=for-the-badge&logo=vercel)](https://globaltna-service-board-teal.vercel.app)
 [![My Portfolio](https://img.shields.io/badge/Portfolio-Visit%20Me-indigo?style=for-the-badge&logo=react)](https://sris-portfolio-six.vercel.app/)
 [![GitHub](https://img.shields.io/badge/GitHub-Srisajeenthran-black?style=for-the-badge&logo=github)](https://github.com/Srisajeenthran)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/srisajeenthran-sritharan/)
@@ -11,6 +12,8 @@ A state-of-the-art, full-stack marketplace designed for seamless interaction bet
 ## 🌟 Overview
 
 ServiceBoard is a production-quality application that streamlines the process of finding and managing local service requests. Whether it's a leaky faucet or a complete house renovation, ServiceBoard provides a clean, fast, and secure platform for homeowners to find the right experts.
+
+🚀 **Live Deployment:** [globaltna-service-board-teal.vercel.app](https://globaltna-service-board-teal.vercel.app)
 
 ### 🎯 Key Objectives
 - **Simplicity:** A "clean-first" approach to UI, making it accessible for all users.
